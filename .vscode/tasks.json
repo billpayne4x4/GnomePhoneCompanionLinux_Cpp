@@ -1,0 +1,55 @@
+{
+    "version": "2.0.0",
+    "command": "bash",
+    "type": "shell",
+    "presentation": {
+        "reveal": "always",
+        "panel": "new"
+    },
+    "options": {
+        "cwd": "${workspaceRoot}"
+    },
+	"args": [
+        "-c"
+    ],
+    "tasks": [
+        {
+            "label": "release",
+            "type": "shell",
+            "command": "make",
+            "args": ["all"]
+        },
+        {
+            "label": "clean release",
+            "type": "shell",
+            "command": "make",
+            "args": ["all"],
+            "dependsOn": "clean"
+        },
+        {
+            "label": "debug",
+            "type": "shell",
+            "command": "make",
+            "args": ["debug"]
+        },
+        {
+            "label": "clean debug",
+            "type": "shell",
+            "command": "make",
+            "args": ["debug"],
+            "dependsOn": "clean"
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "make",
+            "args": ["clean"]
+        },
+        {
+            "label": "test",
+            "type": "shell",
+            "command": "make",
+            "args": ["test"]
+        }
+    ]
+}

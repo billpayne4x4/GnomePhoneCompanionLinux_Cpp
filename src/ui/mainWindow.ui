@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="4.0" />
+  <object class="GtkWindow" id="mainWindow">
+    <property name="title" translatable="1">Gnome Phone Companion</property>
+    <property name="default-width">1024</property>
+    <property name="default-height">800</property>
+    <child type="titlebar">
+      <object class="GtkHeaderBar">
+        <child>
+          <object class="GtkStackSwitcher">
+            <property name="stack">mainStack</property>
+          </object>
+        </child>
+        <child type="end">
+          <object class="GtkMenuButton">
+            <property name="icon-name">open-menu</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkStack" id="mainStack">
+        <property name="transition-type">crossfade</property>
+        <property name="transition-duration">500</property>
+        <child>
+          <object class="GtkStackPage">
+            <property name="icon-name">avatar-default-symbolic</property>
+            <property name="name">Contacts</property>
+            <property name="child">
+              <object class="GtkViewport" id="pageContacts">
+              </object>
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkStackPage" id="pageMessaging">
+            <property name="icon-name">user-available-symbolic</property>
+            <property name="name">Messaging</property>
+            <property name="child">
+              <object class="GtkLabel">
+                <property name="label">Messaging</property>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
