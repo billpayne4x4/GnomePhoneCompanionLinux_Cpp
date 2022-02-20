@@ -4,6 +4,8 @@
 #include "mainWindow.h"
 #include "tools/debug.tpp"
 
+using namespace gpc;
+
 void on_app_activate(Glib::RefPtr<Gtk::Application> app)
 {
     mainWindow window(app);

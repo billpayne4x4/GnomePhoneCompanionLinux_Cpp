@@ -1,16 +1,18 @@
 #include <iostream>
 #include "mainWindow.h"
-#include "tools/uiTools.tpp"
+#include "tools/ui.tpp"
+
+using namespace gpc;
 
 mainWindow::mainWindow(const Glib::RefPtr<Gtk::Application> app) : mainLoop(Glib::MainLoop::create()),
                                                                    contacts(),
                                                                    appServer()
 {
     application = app;
-    builder = uiTools::getBuilder("mainWindow");
+    builder = tools::ui::getBuilder("mainWindow");
 
-    window = uiTools::getWidget<Gtk::Window>(builder, "mainWindow");
-    viewportContacts = uiTools::getWidget<Gtk::Viewport>(builder, "pageContacts");
+    window = tools::ui::getWidget<Gtk::Window>(builder, "mainWindow");
+    viewportContacts = tools::ui::getWidget<Gtk::Viewport>(builder, "pageContacts");
     viewportContacts->set_child(*contacts.getWidget());
 
     application->add_window(*window);

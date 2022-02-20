@@ -4,14 +4,20 @@
 #include <gtkmm.h>
 #include "baseWidget.tpp"
 
-class contactsContainer : public baseWidget<Gtk::Label>
+namespace gpc
 {
-public:
-    contactsContainer();
-    virtual ~contactsContainer();
+    namespace widgets
+    {
+        class contactsContainer : public baseWidget<Gtk::Label>
+        {
+        public:
+            contactsContainer();
+            virtual ~contactsContainer();
 
-protected:
-private:
-};
+        protected:
+        private:
+        };
+    }
+}
 
 #endif // CONTACTSCONTAINER_H

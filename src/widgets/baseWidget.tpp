@@ -2,27 +2,33 @@
 #define BASEWIDGET_H
 
 #include <gtkmm.h>
-#include "../tools/uiTools.tpp"
+#include "../tools/ui.tpp"
 
-template <typename T>
-class baseWidget
+namespace gpc
 {
-public:
-    baseWidget(const std::string &resource, const std::string &widgetId)
+    namespace widgets
     {
-        builder = uiTools::getBuilder(resource);
-        widget = uiTools::getWidget<T>(builder, widgetId);
+        template <typename T>
+        class baseWidget
+        {
+        public:
+            baseWidget(const std::string &resource, const std::string &widgetId)
+            {
+                builder = tools::ui::getBuilder(resource);
+                widget = tools::ui::getWidget<T>(builder, widgetId);
+            }
+
+            virtual ~baseWidget() {}
+
+            T *getWidget() { return widget; }
+
+        protected:
+            Glib::RefPtr<Gtk::Builder> builder;
+            T *widget;
+
+        private:
+        };
     }
-
-    virtual ~baseWidget() {}
-
-    T *getWidget() { return widget; }
-
-protected:
-    Glib::RefPtr<Gtk::Builder> builder;
-    T *widget;
-
-private:
-};
+}
 
 #endif // BASEWIDGET_H

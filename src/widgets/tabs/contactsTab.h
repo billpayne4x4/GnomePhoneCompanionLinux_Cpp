@@ -4,14 +4,23 @@
 #include <gtkmm.h>
 #include "../baseWidget.tpp"
 
-class contactsTab : public baseWidget<Gtk::Paned>
+namespace gpc
 {
-    public:
-        contactsTab();
-        virtual ~contactsTab();
+    namespace widgets
+    {
+        namespace tabs
+        {
+            class contactsTab : public baseWidget<Gtk::Paned>
+            {
+            public:
+                contactsTab();
+                virtual ~contactsTab();
 
-    protected:
-    private:
-};
+            protected:
+            private:
+            };
+        }
+    }
+}
 
 #endif // CONTACTSTAB_H

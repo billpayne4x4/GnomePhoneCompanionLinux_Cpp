@@ -4,6 +4,8 @@
 #include <giomm/inetsocketaddress.h>
 #include <chrono>
 
+using namespace gpc::server;
+
 server::server() : jsonQueue(), buffer()
 {
     serverDispatcher.connect(sigc::mem_fun(*this, &server::received));
@@ -22,7 +24,7 @@ bool server::isRunning()
 
 void server::start()
 {
-    debug(config::logLevel::INFO) << "Starting server...";
+    tools::debug(config::logLevel::INFO) << "Starting server...";
     serverRunning = true;
     serverThread = new std::thread(&server::serverLoop, this);
     serverThread->detach();
@@ -30,7 +32,7 @@ void server::start()
 
 void server::stop()
 {
-    debug(config::logLevel::INFO) << "Stopping server...";
+    tools::debug(config::logLevel::INFO) << "Stopping server...";
     serverRunning = false;
     cancellable->cancel();
 }
@@ -47,17 +49,17 @@ void server::serverLoop()
     {
         cancellable = Gio::Cancellable::create();
         socket = Gio::Socket::create(Gio::SocketFamily::IPV4, Gio::Socket::Type::STREAM, Gio::Socket::Protocol::TCP);
-        debug(config::logLevel::INFO) << "Socket created.";
+        tools::debug(config::logLevel::INFO) << "Socket created.";
 
         if (config::bind == "0.0.0.0")
             socket->bind(Gio::InetSocketAddress::create(Gio::InetAddress::create_any(Gio::SocketFamily::IPV4), config::port), false);
         else
             socket->bind(Gio::InetSocketAddress::create(Gio::InetAddress::create(config::bind), config::port), false);
-        debug(config::logLevel::INFO) << "Bind to address: " << config::bind << ":" << config::port;
+        tools::debug(config::logLevel::INFO) << "Bind to address: " << config::bind << ":" << config::port;
     }
     catch (const std::exception &e)
     {
-        debug(config::logLevel::ERROR) << e.what();
+        tools::debug(config::logLevel::ERROR) << e.what();
     }
 
     while (serverRunning)
@@ -66,17 +68,17 @@ void server::serverLoop()
 
         try
         {
-            debug(config::logLevel::INFO) << "Waiting for client...";
+            tools::debug(config::logLevel::INFO) << "Waiting for client...";
             socket->listen();
             clientSocket = socket->accept(cancellable);
-            debug(config::logLevel::INFO) << "Client connected.";
+            tools::debug(config::logLevel::INFO) << "Client connected.";
         }
         catch (const std::exception &e)
         {
-            debug(config::logLevel::ERROR) << e.what();
+            tools::debug(config::logLevel::ERROR) << e.what();
         }
 
-        while (clientSocket->is_connected())
+        while (clientSocket && clientSocket->is_connected())
         {
             gchar recivedBuffer[4096] = {};
 
@@ -88,7 +90,7 @@ void server::serverLoop()
             }
             catch (const std::exception &e)
             {
-                debug(config::logLevel::ERROR) << e.what();
+                tools::debug(config::logLevel::ERROR) << e.what();
             }
 
             std::string receivedString(recivedBuffer);
@@ -120,9 +122,9 @@ void server::serverLoop()
                 }
             }
         }
-        debug(config::logLevel::INFO) << "Client disconnected.";
+        tools::debug(config::logLevel::INFO) << "Client disconnected.";
     }
-    debug(config::logLevel::INFO) << "Server ended.";
+    tools::debug(config::logLevel::INFO) << "Server ended.";
 }
 
 void server::received()
@@ -130,7 +132,7 @@ void server::received()
     while (!jsonQueue.empty())
     {
         std::string json = jsonQueue.front();
-        debug(config::logLevel::INFO) << "JSON:" << '\n'
+        tools::debug(config::logLevel::INFO) << "JSON:" << '\n'
                                       << json;
         jsonQueue.pop();
     }

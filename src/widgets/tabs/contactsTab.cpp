@@ -1,5 +1,7 @@
 #include "contactsTab.h"
 
+using namespace gpc::widgets::tabs;
+
 contactsTab::contactsTab() : baseWidget("contactsContainer", "paned")
 {
 

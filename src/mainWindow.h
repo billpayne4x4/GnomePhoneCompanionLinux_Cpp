@@ -5,23 +5,26 @@
 #include "widgets/tabs/contactsTab.h"
 #include "server/server.h"
 
-class mainWindow
+namespace gpc
 {
-public:
-    mainWindow(const Glib::RefPtr<Gtk::Application> app);
-    virtual ~mainWindow();
+    class mainWindow
+    {
+    public:
+        mainWindow(const Glib::RefPtr<Gtk::Application> app);
+        virtual ~mainWindow();
 
-protected:
-private:
-    Glib::RefPtr<Gtk::Application> application;
-    Glib::RefPtr<Glib::MainLoop> mainLoop;
-    Glib::RefPtr<Gtk::Builder> builder;
-    Gtk::Window *window;
-    Gtk::Viewport *viewportContacts;
-    contactsTab contacts;
-    server appServer;
+    protected:
+    private:
+        Glib::RefPtr<Gtk::Application> application;
+        Glib::RefPtr<Glib::MainLoop> mainLoop;
+        Glib::RefPtr<Gtk::Builder> builder;
+        Gtk::Window *window;
+        Gtk::Viewport *viewportContacts;
+        widgets::tabs::contactsTab contacts;
+        server::server appServer;
 
-    void startServer();
-};
+        void startServer();
+    };
+}
 
 #endif // MAINWINDOW_H

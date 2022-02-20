@@ -5,7 +5,9 @@
 #include <pwd.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include "tools/stringTools.tpp"
+#include "tools/string.h"
+
+using namespace gpc;
 
 void config::load()
 {
@@ -14,7 +16,7 @@ void config::load()
 
     try
     {
-        lines = stringTools::split(Glib::file_get_contents(fileLocation), "\n");
+        lines = tools::string::split(Glib::file_get_contents(fileLocation), "\n");
     }
     catch (const Glib::FileError &e)
     {
@@ -29,18 +31,18 @@ void config::load()
 
     for (std::string line : lines)
     {
-        line = stringTools::trim(line);
+        line = tools::string::trim(line);
 
         if (line.length() < 1 || line[0] != '#' || line.find('=') != std::string::npos)
         {
-            std::vector<std::string> configLine = stringTools::split(line, "=");
+            std::vector<std::string> configLine = tools::string::split(line, "=");
             if (configLine.size() == 2)
             {
-                std::string key = stringTools::trim(configLine[0]);
-                std::string value = stringTools::trim(configLine[1]);
+                std::string key = tools::string::trim(configLine[0]);
+                std::string value = tools::string::trim(configLine[1]);
 
                 if (value.length() > 0 && value[0] == '"')
-                    value = stringTools::trim(value, "\"");
+                    value = tools::string::trim(value, "\"");
 
                 setValue(key, value);
             }
@@ -104,11 +106,11 @@ void config::setValue(const std::string &key, const std::string &value)
 void config::getValues(std::string &values)
 {
     values = "# gnome-phone-companion Version " + version + "\n\n";
-    values += "version = " + stringTools::addQuotes(version) + "\n";
+    values += "version = " + tools::string::addQuotes(version) + "\n";
     values += "port = " + std::to_string(port) + "\n";
-    values += "bind = " + stringTools::addQuotes(bind) + "\n";
-    values += "auth = " + stringTools::addQuotes(auth) + "\n";
-    values += "log = " + stringTools::addQuotes(logLevelToString(log)) + "\n";
+    values += "bind = " + tools::string::addQuotes(bind) + "\n";
+    values += "auth = " + tools::string::addQuotes(auth) + "\n";
+    values += "log = " + tools::string::addQuotes(logLevelToString(log)) + "\n";
     values += "logDate = " + std::string(logDate ? "True" : "False") + "\n";
     values += "logTime = " + std::string(logTime ? "True" : "False");
 }
